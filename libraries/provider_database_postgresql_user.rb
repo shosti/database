@@ -60,8 +60,12 @@ class Chef
 
         def action_grant
           begin
-            # FIXME: grants on individual tables
-            grant_statement = "GRANT #{@new_resource.privileges.join(', ')} ON DATABASE \"#{@new_resource.database_name}\" TO \"#{@new_resource.username}\""
+            privileges = @new_resource.privileges.join(', ')
+            if @new_resource.table
+              grant_statement = "GRANT #{privileges} ON TABLE \"#{@new_resource.table}\" TO #{@new_resource.username}"
+            else
+              grant_statement = "GRANT #{privileges} ON DATABASE \"#{@new_resource.database_name}\" TO \"#{@new_resource.username}\""
+            end
             Chef::Log.info("#{@new_resource}: granting access with statement [#{grant_statement}]")
             db(@new_resource.database_name).query(grant_statement)
             @new_resource.updated_by_last_action(true)
