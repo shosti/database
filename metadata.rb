@@ -14,7 +14,7 @@ recipe 'database::snapshot', 'Locks tables and freezes XFS filesystem for replic
 
 depends 'mysql', '~> 5.0'
 depends 'postgresql', '>= 1.0.0'
-depends 'aws'
+depends 'aws', '~> 2.7.2'
 depends 'xfs'
 depends 'mysql-chef_gem', '~> 0.0'
 
